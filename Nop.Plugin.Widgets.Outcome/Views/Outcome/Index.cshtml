@@ -1,0 +1,580 @@
+﻿@model Nop.Plugin.Widgets.Outcome.Models.OutcomeModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "_ColumnsOne";
+    ViewBag.Title = "Outcome";
+}
+
+<link rel="stylesheet" href="~/Plugins/Widgets.Outcome/Content/outcome.css" asp-append-version="true" />
+<script src="~/Plugins/Widgets.Outcome/Content/outcome.js" asp-append-version="true"></script>
+
+<div class="page contact-page outcome-form">
+    <div class="page-title"><h1>Outcome</h1></div>
+    <div class="page-body">
+        <div class="topic-block">
+            <div class="topic-block-body">
+                @await Component.InvokeAsync("Widgets.ImpactoNavigation", new { active = "Organisation" /* or "Outcome"/"Dashboard"/etc. */ })
+                <h3>Step 4 of 6 - Outcomes</h3>
+                <div class="stepDesc">
+                    <div class="steptitle">
+                        What are outputs?
+                    </div>
+                    Outcomes are the longer-term changes or benefits your project helps to create for people, communities or systems. These could include things like improved confidence, better health, increased skills, stronger relationships or reduced isolation.
+                    Outcomes are what happens as a result of your activities - not just what you do, but the difference it makes.
+                </div>
+                <div class="stepDesc">
+                    <div class="steptitle">
+                        How to use this section
+                    </div>
+                    To get started, first tick the project category (or categories) that best describe your project. This will unlock a tailored list of outcomes that are
+                    most relevant to your work. From there, you can browse and select the outcomes you’d like to add to your project dashboard.
+                </div>
+                <div class="stepDesc">
+                    If you can’t find something that fits, you can:
+                    <ul>
+                        <li><strong>click ‘view full list of outcomes’</strong> to see everything available</li>
+                        <li><strong>contact us</strong> if there’s something important that’s missing - we’re happy to add what you need</li>
+                    </ul>
+                </div>
+
+                <div class="stepDesc">
+                    Once you’ve added your outcomes (and outputs from the previous page), you’ll be able to see them in your <strong>
+                        Project Dashboard
+                    </strong>. You’ll also be able to download simple,
+                    easy-to-use research tools from <strong>My Research Tools</strong> tab to help you track progress and report on your impact.
+                </div>
+            </div>
+        </div>
+        @* flash *@
+        @if (!string.IsNullOrEmpty(Model.InfoMessage))
+        {
+            <div class="alert alert-@Model.InfoMessageType">@Model.InfoMessage</div>
+        }
+
+        <form asp-action="Save" asp-controller="Outcome" method="post" id="outcomeForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ProjectId" />
+            <input type="hidden" asp-for="Existing" />
+            <div class="fieldset">
+                <div class="form-fields">
+                    <div>
+                        <div>Which of the following categories best describe your project?</div>
+                    </div>
+                    <!-- Top categories — IMPORTANT: data-l1 must match section id suffix -->
+                    <fieldset class="outcome-fieldset">
+                        <legend>Select categories</legend>
+                        <div class="topCategories grid-2">
+                            <label class="checkbox">
+                                <input asp-for="Cat_MentalHealth" type="checkbox" id="top-mental" data-l1="mental" />
+                                Mental health &amp; wellbeing
+                            </label>
+
+                            <label class="checkbox">
+                                <input asp-for="Cat_PhysicalHealth" type="checkbox" id="top-physical" data-l1="physical" />
+                                Physical health, sports &amp; recreation
+                            </label>
+
+                            <label class="checkbox">
+                                <input asp-for="Cat_Employment" type="checkbox" id="top-employment" data-l1="employment" />
+                                Employment, education, economic participation
+                            </label>
+
+                            <label class="checkbox">
+                                <input asp-for="Cat_SocialConnection" type="checkbox" id="top-social" data-l1="social" />
+                                Social connection &amp; community engagement
+                            </label>
+
+                            <label class="checkbox">
+                                <input asp-for="Cat_Culture" type="checkbox" id="top-culture" data-l1="culture" />
+                                Culture, arts &amp; heritage
+                            </label>
+
+                            <label class="checkbox">
+                                <input asp-for="Cat_Housing" type="checkbox" id="top-housing" data-l1="housing" />
+                                Housing &amp; homelessness
+                            </label>
+
+                            <label class="checkbox">
+                                <input asp-for="Cat_Religious" type="checkbox" id="top-religious" data-l1="religious" />
+                                Religious &amp; faith projects
+                            </label>
+
+                            <label class="checkbox">
+                                <input asp-for="Cat_Environment" type="checkbox" id="top-environment" data-l1="environment" />
+                                Environment
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- ===========================
+                    Mental health & wellbeing
+                    =========================== -->
+                    <section class="category-section" id="l1-mental" style="display:@(Model.Cat_MentalHealth ? "block" : "none")">
+                        <div class="category-head">
+                            <div class="category-title" role="heading" aria-level="2">Mental health &amp; wellbeing</div>
+                            <div class="category-toolbar">
+                                <button type="button" class="toggle-hidden" data-target="#l1-mental" aria-expanded="false">
+                                    Show all
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ===== M1 ===== -->
+                        <div class="outcome-block @(Model.M1_Selected ? "" : "is-hidden")" data-block="M1">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M1_Selected" data-l2="M1" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M1_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M1_Selected ? "block" : "none")">
+                                <div class="grid-2">
+                                    <div class="inputs">
+                                        <label asp-for="M1_Respondents"></label>
+                                        <input asp-for="M1_Respondents" class="form-control" />
+                                        <span asp-validation-for="M1_Respondents" class="field-validation-error"></span>
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M1_ReducedAnxietyCount"></label>
+                                        <select asp-for="M1_ReducedAnxietyCount" class="form-control"
+                                                asp-items="Html.GetEnumSelectList<Nop.Plugin.Widgets.Outcome.Models.ReducedAnxietyLevel>()">
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M2 (survey) ===== -->
+                        <div class="outcome-block @(Model.M2_Selected ? "" : "is-hidden")" data-block="M2">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M2_Selected" data-l2="M2" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M2_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M2_Selected ? "block" : "none")">
+                                <div class="grid-2">
+                                    <div class="inputs">
+                                        <label asp-for="M2_Respondents"></label>
+                                        <input asp-for="M2_Respondents" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M2_SurveyType"></label>
+                                        <select asp-for="M2_SurveyType" class="form-control survey-type">
+                                            <option value="">-- Select --</option>
+                                            <option value="0">Pre survey</option>
+                                            <option value="1">Post survey</option>
+                                            <option value="2">One-off survey</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="conditional oneoff"
+                                     style="display:@(Model.M2_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.OneOffSurvey ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M2_OneOff_Improved6mCount"></label>
+                                        <input asp-for="M2_OneOff_Improved6mCount" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="conditional prepost"
+                                     style="display:@((Model.M2_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PreSurvey || Model.M2_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PostSurvey) ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M2_PrePost_AvgImprovement"></label>
+                                        <input asp-for="M2_PrePost_AvgImprovement" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M3 (survey) ===== -->
+                        <div class="outcome-block @(Model.M3_Selected ? "" : "is-hidden")" data-block="M3">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M3_Selected" data-l2="M3" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M3_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M3_Selected ? "block" : "none")">
+                                <div class="grid-2">
+                                    <div class="inputs">
+                                        <label asp-for="M3_Respondents"></label>
+                                        <input asp-for="M3_Respondents" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M3_SurveyType"></label>
+                                        <select asp-for="M3_SurveyType" class="form-control survey-type">
+                                            <option value="">-- Select --</option>
+                                            <option value="0">Pre survey</option>
+                                            <option value="1">Post survey</option>
+                                            <option value="2">One-off survey</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="conditional oneoff"
+                                     style="display:@(Model.M3_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.OneOffSurvey ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M3_OneOff_Improved6mCount"></label>
+                                        <input asp-for="M3_OneOff_Improved6mCount" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="conditional prepost"
+                                     style="display:@((Model.M3_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PreSurvey || Model.M3_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PostSurvey) ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M3_PrePost_AvgImprovement"></label>
+                                        <input asp-for="M3_PrePost_AvgImprovement" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M4 ===== -->
+                        <div class="outcome-block @(Model.M4_Selected ? "" : "is-hidden")" data-block="M4">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M4_Selected" data-l2="M4" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M4_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M4_Selected ? "block" : "none")">
+                                <div class="grid-3">
+                                    <div class="inputs">
+                                        <label asp-for="M4_ParticipantsTotal"></label>
+                                        <input asp-for="M4_ParticipantsTotal" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M4_FirstTimeParticipants"></label>
+                                        <input asp-for="M4_FirstTimeParticipants" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M4_RepeatParticipants"></label>
+                                        <input asp-for="M4_RepeatParticipants" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M5 (survey) ===== -->
+                        <div class="outcome-block @(Model.M5_Selected ? "" : "is-hidden")" data-block="M5">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M5_Selected" data-l2="M5" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M5_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M5_Selected ? "block" : "none")">
+                                <div class="grid-2">
+                                    <div class="inputs">
+                                        <label asp-for="M5_Respondents"></label>
+                                        <input asp-for="M5_Respondents" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M5_SurveyType"></label>
+                                        <select asp-for="M5_SurveyType" class="form-control survey-type">
+                                            <option value="">-- Select --</option>
+                                            <option value="0">Pre survey</option>
+                                            <option value="1">Post survey</option>
+                                            <option value="2">One-off survey</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="conditional oneoff"
+                                     style="display:@(Model.M5_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.OneOffSurvey ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M5_OneOff_Improved6mCount"></label>
+                                        <input asp-for="M5_OneOff_Improved6mCount" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="conditional prepost"
+                                     style="display:@((Model.M5_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PreSurvey || Model.M5_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PostSurvey) ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M5_PrePost_AvgImprovement"></label>
+                                        <input asp-for="M5_PrePost_AvgImprovement" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M6 (survey) ===== -->
+                        <div class="outcome-block @(Model.M6_Selected ? "" : "is-hidden")" data-block="M6">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M6_Selected" data-l2="M6" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M6_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M6_Selected ? "block" : "none")">
+                                <div class="grid-2">
+                                    <div class="inputs">
+                                        <label asp-for="M6_Respondents"></label>
+                                        <input asp-for="M6_Respondents" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M6_SurveyType"></label>
+                                        <select asp-for="M6_SurveyType" class="form-control survey-type">
+                                            <option value="">-- Select --</option>
+                                            <option value="0">Pre survey</option>
+                                            <option value="1">Post survey</option>
+                                            <option value="2">One-off survey</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="conditional oneoff"
+                                     style="display:@(Model.M6_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.OneOffSurvey ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M6_OneOff_Improved6mCount"></label>
+                                        <input asp-for="M6_OneOff_Improved6mCount" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="conditional prepost"
+                                     style="display:@((Model.M6_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PreSurvey || Model.M6_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PostSurvey) ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M6_PrePost_AvgImprovement"></label>
+                                        <input asp-for="M6_PrePost_AvgImprovement" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M7 ===== -->
+                        <div class="outcome-block @(Model.M7_Selected ? "" : "is-hidden")" data-block="M7">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M7_Selected" data-l2="M7" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M7_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M7_Selected ? "block" : "none")">
+                                <div class="grid-3">
+                                    <div class="inputs">
+                                        <label asp-for="M7_GroupParticipantsTotal"></label>
+                                        <input asp-for="M7_GroupParticipantsTotal" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M7_GroupActivitiesPerWeek"></label>
+                                        <input asp-for="M7_GroupActivitiesPerWeek" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M7_ReferralNetworks"></label>
+                                        <textarea asp-for="M7_ReferralNetworks" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M8 (survey) ===== -->
+                        <div class="outcome-block @(Model.M8_Selected ? "" : "is-hidden")" data-block="M8">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M8_Selected" data-l2="M8" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M8_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M8_Selected ? "block" : "none")">
+                                <div class="grid-2">
+                                    <div class="inputs">
+                                        <label asp-for="M8_Respondents"></label>
+                                        <input asp-for="M8_Respondents" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M8_SurveyType"></label>
+                                        <select asp-for="M8_SurveyType" class="form-control survey-type">
+                                            <option value="">-- Select --</option>
+                                            <option value="0">Pre survey</option>
+                                            <option value="1">Post survey</option>
+                                            <option value="2">One-off survey</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="conditional oneoff"
+                                     style="display:@(Model.M8_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.OneOffSurvey ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M8_OneOff_Improved6mCount"></label>
+                                        <input asp-for="M8_OneOff_Improved6mCount" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="conditional prepost"
+                                     style="display:@((Model.M8_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PreSurvey || Model.M8_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PostSurvey) ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M8_PrePost_AvgImprovement"></label>
+                                        <input asp-for="M8_PrePost_AvgImprovement" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M9 ===== -->
+                        <div class="outcome-block @(Model.M9_Selected ? "" : "is-hidden")" data-block="M9">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M9_Selected" data-l2="M9" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M9_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M9_Selected ? "block" : "none")">
+                                <div class="grid-2">
+                                    <div class="inputs">
+                                        <label asp-for="M9_Respondents"></label>
+                                        <input asp-for="M9_Respondents" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M9_ManagedToHandleMentalHealthCount"></label>
+                                        <input asp-for="M9_ManagedToHandleMentalHealthCount" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M10 ===== -->
+                        <div class="outcome-block @(Model.M10_Selected ? "" : "is-hidden")" data-block="M10">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M10_Selected" data-l2="M10" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M10_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M10_Selected ? "block" : "none")">
+                                <div class="form-fields">
+                                    <div class="inputs">
+                                        <label asp-for="M10_FewerCrisisIncidentsCount"></label>
+                                        <input asp-for="M10_FewerCrisisIncidentsCount" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M11 ===== -->
+                        <div class="outcome-block @(Model.M11_Selected ? "" : "is-hidden")" data-block="M11">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M11_Selected" data-l2="M11" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M11_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M11_Selected ? "block" : "none")">
+                                <div class="form-fields">
+                                    <div class="inputs">
+                                        <label asp-for="M11_UrgentReferralsReductionPct"></label>
+                                        <input asp-for="M11_UrgentReferralsReductionPct" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M12 ===== -->
+                        <div class="outcome-block @(Model.M12_Selected ? "" : "is-hidden")" data-block="M12">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M12_Selected" data-l2="M12" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M12_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M12_Selected ? "block" : "none")">
+                                <div class="grid-2">
+                                    <div class="inputs">
+                                        <label asp-for="M12_RespondedCount"></label>
+                                        <input asp-for="M12_RespondedCount" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M12_BetterAwarenessCount"></label>
+                                        <input asp-for="M12_BetterAwarenessCount" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M13 ===== -->
+                        <div class="outcome-block @(Model.M13_Selected ? "" : "is-hidden")" data-block="M13">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M13_Selected" data-l2="M13" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M13_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M13_Selected ? "block" : "none")">
+                                <div class="form-fields">
+                                    <div class="inputs">
+                                        <label asp-for="M13_LeaderObservations"></label>
+                                        <textarea asp-for="M13_LeaderObservations" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M14 (survey) ===== -->
+                        <div class="outcome-block @(Model.M14_Selected ? "" : "is-hidden")" data-block="M14">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M14_Selected" data-l2="M14" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M14_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M14_Selected ? "block" : "none")">
+                                <div class="grid-2">
+                                    <div class="inputs">
+                                        <label asp-for="M14_Respondents"></label>
+                                        <input asp-for="M14_Respondents" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M14_SurveyType"></label>
+                                        <select asp-for="M14_SurveyType" class="form-control survey-type">
+                                            <option value="">-- Select --</option>
+                                            <option value="0">Pre survey</option>
+                                            <option value="1">Post survey</option>
+                                            <option value="2">One-off survey</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="conditional oneoff"
+                                     style="display:@(Model.M14_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.OneOffSurvey ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M14_OneOff_Improved6mCount"></label>
+                                        <input asp-for="M14_OneOff_Improved6mCount" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="conditional prepost"
+                                     style="display:@((Model.M14_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PreSurvey || Model.M14_SurveyType == Nop.Plugin.Widgets.Outcome.Models.SurveyType.PostSurvey) ? "block" : "none")">
+                                    <div class="inputs">
+                                        <label asp-for="M14_PrePost_AvgImprovement"></label>
+                                        <input asp-for="M14_PrePost_AvgImprovement" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== M15 ===== -->
+                        <div class="outcome-block @(Model.M15_Selected ? "" : "is-hidden")" data-block="M15">
+                            <div class="outcome-header">
+                                <label class="h3-check">
+                                    <input type="checkbox" asp-for="M15_Selected" data-l2="M15" />
+                                    @Nop.Plugin.Widgets.Outcome.Models.OutcomeModel.M15_Title
+                                </label>
+                            </div>
+                            <div class="outcome-content" style="display:@(Model.M15_Selected ? "block" : "none")">
+                                <div class="grid-2">
+                                    <div class="inputs">
+                                        <label asp-for="M15_ProgrammeCompletionsCount"></label>
+                                        <input asp-for="M15_ProgrammeCompletionsCount" class="form-control" />
+                                    </div>
+                                    <div class="inputs">
+                                        <label asp-for="M15_NoRelapse6mPct"></label>
+                                        <input asp-for="M15_NoRelapse6mPct" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="buttons">
+                <button type="submit" name="command" value="Save" class="button-1">
+                    @(Model.Existing ? "Update outcome" : "Add outcome to the project")
+                </button>
+                <p class="back-link" style="margin-top:10px;">
+                    <a href="/dashboard@(Model.ProjectId > 0 ? $"?projectId={Model.ProjectId}" : "")">← Back to dashboard</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>

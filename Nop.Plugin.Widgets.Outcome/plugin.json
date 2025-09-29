@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Outcome",
+  "SystemName": "Widgets.Outcome",
+  "Version": "1.07",
+  "SupportedVersions": [ "4.80" ],
+  "Author": "Adaptive AI - Anil Singh",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.Outcome.dll",
+  "Description": "Outcome"
+}

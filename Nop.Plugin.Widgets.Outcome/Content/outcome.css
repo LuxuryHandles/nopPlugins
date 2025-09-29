@@ -1,0 +1,270 @@
+﻿.page.contact-page.outcome-form .topCategories .checkbox {
+  display: block;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: box-shadow .15s ease, transform .05s ease, filter .15s ease;
+}
+
+  /* subtle hover/focus */
+  .page.contact-page.outcome-form .topCategories .checkbox:hover {
+    filter: brightness(0.98);
+  }
+
+  .page.contact-page.outcome-form .topCategories .checkbox:has(input:focus-visible) {
+    box-shadow: 0 0 0 3px rgba(40,120,220,.2);
+  }
+
+  /* stronger style when checked */
+  .page.contact-page.outcome-form .topCategories .checkbox:has(input:checked) {
+    border-color: #999;
+    font-weight: 600;
+  }
+
+  /* per-category base colors (match your section colors if you like) */
+  .page.contact-page.outcome-form .topCategories .checkbox:has(input[data-l1="mental"]) {
+    background-color: #fde9d9;
+  }
+
+  .page.contact-page.outcome-form .topCategories .checkbox:has(input[data-l1="physical"]) {
+    background-color: #ebf1de;
+  }
+
+  .page.contact-page.outcome-form .topCategories .checkbox:has(input[data-l1="employment"]) {
+    background-color: #eef9e6;
+  }
+
+  .page.contact-page.outcome-form .topCategories .checkbox:has(input[data-l1="social"]) {
+    background-color: #fff3cd;
+  }
+
+  .page.contact-page.outcome-form .topCategories .checkbox:has(input[data-l1="culture"]) {
+    background-color: #f2e9fb;
+  }
+
+  .page.contact-page.outcome-form .topCategories .checkbox:has(input[data-l1="housing"]) {
+    background-color: #ffe6e6;
+  }
+
+  .page.contact-page.outcome-form .topCategories .checkbox:has(input[data-l1="religious"]) {
+    background-color: #e8f0fe;
+  }
+
+  .page.contact-page.outcome-form .topCategories .checkbox:has(input[data-l1="environment"]) {
+    background-color: #e6fff2;
+  }
+
+.page.contact-page.outcome-form .category-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 4px 0 12px;
+}
+
+  .page.contact-page.outcome-form .category-head .category-title {
+    margin: 0;
+    font-size: 1rem; /* same size you had on h2 */
+    font-weight: 600;
+  }
+
+  .page.contact-page.outcome-form .category-head .category-toolbar {
+    margin: 0; /* override any previous toolbar margins */
+    text-align: initial;
+  }
+
+/* scoped fieldset styling */
+.page.contact-page.outcome-form .outcome-fieldset {
+  margin-bottom: 20px;
+  border: none;
+  padding: 0;
+}
+
+  .page.contact-page.outcome-form .outcome-fieldset > legend {
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+/* two-column layout for "Select categories" */
+.page.contact-page.outcome-form .topCategories.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .page.contact-page.outcome-form .topCategories.grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* hide unchecked Level-2 blocks unless section is in 'show-hidden' mode */
+.page.contact-page.outcome-form .category-section .outcome-block.is-hidden {
+  display: none;
+}
+
+.page.contact-page.outcome-form .category-section.show-hidden .outcome-block.is-hidden {
+  display: block;
+}
+
+  .page.contact-page.outcome-form .category-section.show-hidden .outcome-block.is-hidden .outcome-header {
+    opacity: .8;
+  }
+
+/* toolbar button */
+.page.contact-page.outcome-form .category-toolbar {
+  margin: 6px 0 12px;
+  text-align: right;
+}
+
+  .page.contact-page.outcome-form .category-toolbar .toggle-hidden {
+    border: 1px solid #f4aa34;
+    background: #f4aa34;
+    padding: 2px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+.page.contact-page.outcome-form .topCategories.grid-3 {
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+}
+
+.page.contact-page.outcome-form .outcome-block {
+  padding: 16px;
+  border: 1px solid #d3d3d3;
+  border-radius: 8px;
+  margin: 16px 0;
+  background: transparent; /* was #fde9d9 */
+}
+
+/* Per-section colors */
+.page.contact-page.outcome-form #l1-mental .outcome-block {
+  background-color: #fde9d9; /* Mental */
+}
+
+.page.contact-page.outcome-form #l1-physical .outcome-block {
+  background-color: #ebf1de; /* Physical */
+}
+
+.page.contact-page.outcome-form #l1-employment .outcome-block {
+  background-color: #eef9e6; /* Employement */
+}
+
+.page.contact-page.outcome-form #l1-social .outcome-block {
+  background-color: #fff3cd; /* Social */
+}
+
+.page.contact-page.outcome-form #l1-culture .outcome-block {
+  background-color: #f2e9fb; /* Culture */
+}
+
+.page.contact-page.outcome-form .conditional {
+  display: none;
+  margin-top: 8px;
+}
+
+.l2-picker {
+  margin: 8px 0 16px;
+}
+
+  .l2-picker .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .l2-picker .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 999px;
+    background: #fafafa;
+    cursor: pointer;
+  }
+
+/* header layout */
+.page.contact-page.outcome-form .outcome-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+  .page.contact-page.outcome-form .outcome-header h3 {
+    margin: 0;
+  }
+
+.page.contact-page.outcome-form .h3-check {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-weight: 400;
+}
+
+.page.contact-page.outcome-form .outcome-content {
+  margin-top: 12px;
+}
+
+/* (optional) remove the old chip row spacing if you had it */
+.l2-picker {
+  display: none;
+}
+
+/* hide unchecked Level-2 blocks unless the section is in 'show-hidden' mode */
+.category-section .outcome-block.is-hidden {
+  display: none;
+}
+
+.category-section.show-hidden .outcome-block.is-hidden {
+  display: block;
+}
+
+  .category-section.show-hidden .outcome-block.is-hidden .outcome-header {
+    opacity: .75;
+  }
+
+/* toolbar button */
+.category-toolbar {
+  margin: 6px 0 12px;
+  text-align: right;
+}
+
+.stepDesc {
+  padding: 0px 0px 10px 0px;
+}
+
+.steptitle {
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 12px 0px 5px 0px;
+}
+
+.stepDesc > ul > li {
+  list-style: inside;
+  padding: 10px 0px 0px 10px;
+}
+
+.page.contact-page.outcome-form .fieldset textarea,
+.page.contact-page.outcome-form .fieldset input[type="text"],
+.page.contact-page.outcome-form .fieldset input[type="number"],
+.page.contact-page.outcome-form .fieldset input[type="date"],
+.page.contact-page.outcome-form .fieldset Select {
+  max-width: 800px; /* cap the 60% width on huge screens */
+  padding: 10px 10px;
+  line-height: 1.3;
+  border: solid 1px #CCCCCC;
+  background-color: #ffffff;
+}
+
+.outcome-form .alert.alert-success {
+  text-align: center; /* centre the text */
+  margin: 12px auto; /* centre the block horizontally */
+  background-color: lightgreen;
+  width: 60%;
+  padding: 10px 20px;
+}
