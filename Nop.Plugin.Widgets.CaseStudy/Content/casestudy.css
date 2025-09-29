@@ -1,0 +1,31 @@
+﻿.dashboard-mini-nav {
+  display: flex;
+  justify-content: flex-end; /* right align */
+  align-items: center;
+  gap: 0.3rem; /* space between items */
+  margin: 0px 0 2px 0;
+  flex-wrap: nowrap; /* keep all on one row */
+}
+
+.dashboard-mini-nav > div {
+  white-space: nowrap; /* stop line breaks inside each item */
+  font-size: .95rem;
+  color: #333;
+}
+
+.dashboard-mini-nav > div > a {
+  display: inline-block; /* lets background/padding apply cleanly */
+  background: #f4aa34;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: .8em;
+  color: #111;
+  text-decoration: none;
+  transition: background-color .15s ease, color .15s ease;
+}
+
+/* hover/focus */
+.dashboard-mini-nav a:hover,
+.dashboard-mini-nav a:focus-visible {
+  background: #f9c87a; /* or red if you prefer */
+}
