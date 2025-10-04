@@ -1,0 +1,68 @@
+﻿@model IList<Nop.Plugin.BusinessServices.Models.BusinessTypeModel>
+@using Nop.Web.Framework
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageTitle = "Business Types";
+}
+<div class="content-header clearfix">
+    <h1 class="float-left">Business Types</h1>
+    <div class="float-right">
+        <form method="post" class="d-inline"
+              asp-area="@AreaNames.ADMIN" asp-controller="BusinessTypeAdmin" asp-action="SeedDefaults">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-info">Seed default types</button>
+        </form>
+
+        <!-- NEW: All-in-one seeder -->
+        <form method="post" class="d-inline ml-1"
+              asp-area="@AreaNames.ADMIN" asp-controller="BusinessTypeAdmin" asp-action="SeedAll">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">Seed ALL (types + services + map)</button>
+        </form>
+
+        <a class="btn btn-primary ml-1"
+           asp-area="@AreaNames.ADMIN" asp-controller="BusinessTypeAdmin" asp-action="Create">Add new</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Published</th>
+                        <th style="width:260px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model)
+                    {
+                        <tr>
+                            <td>@x.Name</td>
+                            <td>@(x.Published ? "Yes" : "No")</td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary"
+                                   asp-area="@AreaNames.ADMIN" asp-controller="BusinessTypeAdmin" asp-action="Edit" asp-route-id="@x.Id">Edit</a>
+
+                                <form method="post" class="d-inline"
+                                      asp-area="@AreaNames.ADMIN" asp-controller="BusinessTypeAdmin" asp-action="Delete" asp-route-id="@x.Id">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Delete this business type?')">
+                                        Delete
+                                    </button>
+                                </form>
+
+                                <a class="btn btn-sm btn-info"
+                                   asp-area="@AreaNames.ADMIN" asp-controller="BusinessTypeServiceAdmin" asp-action="Map"
+                                   asp-route-businessTypeId="@x.Id">Map services</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

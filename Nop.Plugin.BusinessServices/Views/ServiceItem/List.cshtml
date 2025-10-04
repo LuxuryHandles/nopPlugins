@@ -1,0 +1,73 @@
+﻿@model Nop.Plugin.BusinessServices.Models.ServiceListViewModel
+@using Nop.Web.Framework
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.PageTitle = "Services";
+}
+
+<div class="content-header clearfix">
+    <h1 class="float-left">Services</h1>
+    <div class="float-right">
+        <form method="post" class="d-inline"
+              asp-area="@AreaNames.ADMIN" asp-controller="ServiceItemAdmin" asp-action="SeedDefaults">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-info">Seed default services</button>
+        </form>
+        <a class="btn btn-primary"
+           asp-area="@AreaNames.ADMIN" asp-controller="ServiceItemAdmin" asp-action="Create">Add new</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th style="min-width: 260px;">Service</th>
+                        <th>Published</th>
+
+                        @* Dynamic columns: one per Business Type *@
+                        @foreach (var t in Model.Types)
+                        {
+                            <th class="text-center">@t.Name</th>
+                        }
+
+                        <th style="width: 200px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Model.Services)
+                    {
+                        <tr>
+                            <td>@row.Service.Name</td>
+                            <td>@(row.Service.Published ? "Yes" : "No")</td>
+
+                            @* Tick mark if mapped *@
+                            @foreach (var t in Model.Types)
+                            {
+                                <td class="text-center">
+                                    @(row.TypeIds.Contains(t.Id) ? "✓" : "—")
+                                </td>
+                            }
+
+                            <td>
+                                <a class="btn btn-sm btn-secondary"
+                                   asp-area="@AreaNames.ADMIN" asp-controller="ServiceItemAdmin" asp-action="Edit" asp-route-id="@row.Service.Id">Edit</a>
+
+                                <form method="post" class="d-inline"
+                                      asp-area="@AreaNames.ADMIN" asp-controller="ServiceItemAdmin" asp-action="Delete" asp-route-id="@row.Service.Id">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Delete this service?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

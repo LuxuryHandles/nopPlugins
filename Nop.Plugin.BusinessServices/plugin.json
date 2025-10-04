@@ -1,0 +1,11 @@
+{
+  "Group": "Admin extensions",
+  "FriendlyName": "Business Services (Admin)",
+  "SystemName": "BusinessServices",
+  "Version": "1.04",
+  "SupportedVersions": [ "4.80" ],
+  "Author": "Spa4Pets - Anil Singh",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.BusinessServices.dll",
+  "Description": "Admin-only management of Businesses, Services, and their mappings."
+}
